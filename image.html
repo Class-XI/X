@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends Slideshow</title>
+    <style>
+        /* Reset and basic styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1a0000;
+            color: #fff;
+        }
+
+        /* Slideshow container */
+        .slideshow-container {
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        /* Each slide */
+        .slide {
+            display: none;
+            position: relative;
+            text-align: center;
+        }
+
+        .slide img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(255, 0, 0, 0.8);
+            /* Red shadow for scarier effect */
+            transition: transform 0.3s ease;
+        }
+
+        .slide img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 255, 0, 0.8);
+            /* Yellow glow on hover */
+        }
+
+        /* Navigation buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: #ff0000;
+            /* Light red color for buttons */
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.3s;
+            border-radius: 5px;
+            user-select: none;
+        }
+
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(255, 0, 0, 0.3);
+            /* Dark red hover effect */
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .slideshow-container {
+                width: 90%;
+            }
+
+            .prev,
+            .next {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slideshow-container">
+        <!-- Slide 9 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/8C67FDv2/a61a273c-e32b-494e-b220-7fb982e2f379.jpg" alt="Friend 3">
+        </div>
+        <!-- Slide 1 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/SKGcwQTL/bd8b9709-e4bf-424f-8231-16d4c28fdc84.jpg" alt="Friend 1">
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/Vs95gZhM/3ccc8623-b7ac-4a8f-bac6-290b2d5f337d.jpg" alt="Friend 2">
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/vBg2M6JF/442982a4-9ac5-4371-bcd7-814ca08fcce5.jpg" alt="Friend 3">
+        </div>
+        <!-- Slide 4 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/rwHSTYMs/f2416bb0-881b-4958-8e5c-08e1173fe2d9.jpg" alt="Friend 1">
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/c4pxNQPZ/df2f5b1b-f67d-4e4a-846b-1e13bfb7df45.jpg" alt="Friend 2">
+        </div>
+
+        <!-- Slide 10 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/2yVR6jbv/01a279bc-e396-4c64-a8fc-60551c4e5baf.jpg" alt="Friend 1">
+        </div>
+
+        <!-- Slide 11 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/pr94v04J/502b2d54-1975-41ca-bc8d-92caa0acc5bb.jpg" alt="Friend 2">
+        </div>
+
+        <!-- Slide 12 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/rwHSTYMs/f2416bb0-881b-4958-8e5c-08e1173fe2d9.jpg" alt="Friend 1">
+        </div>
+
+        <!-- Slide 13 -->
+        <div class="slide">
+            <img src="https://i.postimg.cc/c4pxNQPZ/df2f5b1b-f67d-4e4a-846b-1e13bfb7df45.jpg" alt="Friend 2">
+        </div>
+
+
+
+        <!-- Navigation buttons -->
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        showSlides(slideIndex);
+
+        function changeSlide(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let slides = document.getElementsByClassName("slide");
+            if (n >= slides.length) slideIndex = 0;
+            if (n < 0) slideIndex = slides.length - 1;
+            for (let slide of slides) {
+                slide.style.display = "none";
+            }
+            slides[slideIndex].style.display = "block";
+        }
+
+        // Auto slide functionality (optional)
+        setInterval(() => { changeSlide(1); }, 3000); // Change image every 3 seconds
+    </script>
+
+</body>
+
+</html>
