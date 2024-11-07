@@ -54,11 +54,11 @@ body {
 }
 
 .friend-box:nth-child(odd) {
-    border-color: #ff6347;
+    border-color: #ff0000;
 }
 
 .friend-box:nth-child(even) {
-    border-color: #20b2aa;
+    border-color: #00fff2;
 }
 
 
