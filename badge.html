@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Tags and Winners</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, black, blue, purple);
+            color: rgb(255, 255, 255);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Tag Section */
+        .tag-section {
+            margin-bottom: 50px;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        .tag-title {
+            font-size: 1.8rem;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: inline-block;
+            animation: float 3s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .tag-description {
+            font-size: 1rem;
+            margin: 10px 0 20px;
+            color: #ffffff;
+        }
+
+        /* Winners Container */
+        .winners-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .image-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .round-image {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+
+        /* Numbered Styles */
+        .first-place { border: 3px solid gold; }
+        .second-place { border: 3px solid silver; }
+        .third-place { border: 3px solid #cd7f32; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .winners-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .round-image {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tag Sections -->
+    <!-- 1. Academic Achievers -->
+    <div class="tag-section">
+        <div class="tag-title">Academic Achievers</div>
+        <div class="tag-description">Students who excel in academics and consistently perform well in exams.</div>
+        <div class="winners-container">
+            <div class="image-box">
+                <div class="round-image first-place" style="background-image: url('https://i.imghippo.com/files/TIhod1727265841.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image second-place" style="background-image: url('https://i.imghippo.com/files/CWI0f1727265501.jpg');"></div>
+               
+            </div>
+            <div class="image-box">
+                <div class="round-image third-place" style="background-image: url('https://i.imghippo.com/files/VqyvW1727267559.jpg');"></div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Sports Stars -->
+    <div class="tag-section">
+        <div class="tag-title">Sports Stars</div>
+        <div class="tag-description">Students who are actively involved in sports and excel in athletic events.</div>
+        <div class="winners-container">
+            <div class="image-box">
+                <div class="round-image first-place" style="background-image: url('https://i.imghippo.com/files/3gxQj1727265879.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image second-place" style="background-image: url('https://i.imghippo.com/files/wNBdu1727268329.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image third-place" style="background-image: url('https://i.imghippo.com/files/wS1AY1727268999.jpg');"></div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Creative Minds -->
+    <div class="tag-section">
+        <div class="tag-title">Creative Minds</div>
+        <div class="tag-description">Students who showcase exceptional talent in arts, crafts, music, or writing.</div>
+        <div class="winners-container">
+            <div class="image-box">
+                <div class="round-image first-place" style="background-image: url('https://i.postimg.cc/nL1RSSg0/5f276c2a-1882-4e3f-9104-30e0632049a0.jpg');"></div>
+               
+            </div>
+            <div class="image-box">
+                <div class="round-image second-place" style="background-image: url('https://i.imghippo.com/files/8RowA1727267717.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image third-place" style="background-image: url('https://i.imghippo.com/files/3gxQj1727265879.jpg');"></div>
+               
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Tech Gurus -->
+    <div class="tag-section">
+        <div class="tag-title">Tech Gurus</div>
+        <div class="tag-description">Students who have a knack for coding, robotics, or working with technology.</div>
+        <div class="winners-container">
+            <div class="image-box">
+                <div class="round-image first-place" style="background-image: url('https://i.imghippo.com/files/Nspan1727265786.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image second-place" style="background-image: url('https://i.imghippo.com/files/CWI0f1727265501.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image third-place" style="background-image: url('https://i.postimg.cc/nL1RSSg0/5f276c2a-1882-4e3f-9104-30e0632049a0.jpg');"></div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Leadership Legends -->
+    <div class="tag-section">
+        <div class="tag-title">Leadership Legends</div>
+        <div class="tag-description">Students who lead by example and inspire others to work towards success.</div>
+        <div class="winners-container">
+            <div class="image-box">
+                <div class="round-image first-place" style="background-image: url('https://i.imghippo.com/files/3gxQj1727265879.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image second-place" style="background-image: url('https://i.imghippo.com/files/TIhod1727265841.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image third-place" style="background-image: url('https://i.imghippo.com/files/CWI0f1727265501.jpg');"></div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Team Players -->
+    <div class="tag-section">
+        <div class="tag-title">Team Players</div>
+        <div class="tag-description">Students who work effectively in groups and foster collaboration among peers.</div>
+        <div class="winners-container">
+            <div class="image-box">
+                <div class="round-image first-place" style="background-image: url('https://i.imghippo.com/files/CFea3942aw.jpeg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image second-place" style="background-image: url('https://i.imghippo.com/files/Nl3bO1727267767.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image third-place" style="background-image: url('https://i.imghippo.com/files/Nspan1727265786.jpg');"></div>
+               
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Social Butterflies -->
+    <div class="tag-section">
+        <div class="tag-title">Social Butterflies</div>
+        <div class="tag-description">Students who are friendly, outgoing, and bring people together.</div>
+        <div class="winners-container">
+            <div class="image-box">
+                <div class="round-image first-place" style="background-image: url('https://i.imghippo.com/files/8RowA1727267717.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image second-place" style="background-image: url('https://i.imghippo.com/files/SDLr01727363956.jpg');"></div>
+                
+            </div>
+            <div class="image-box">
+                <div class="round-image third-place" style="background-image: url('https://i.imghippo.com/files/CWI0f1727265501.jpg');"></div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
