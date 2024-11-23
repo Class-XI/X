@@ -302,7 +302,7 @@
 
         function showQuestion() {
             const currentQuestion = questions[currentQuestionIndex];
-            frontElement.textContent = "Click to Flip!";
+            frontElement.textContent = "Guess Who Am i?";
             backElement.textContent = currentQuestion.question;
             optionsElement.innerHTML = currentQuestion.options.map(option => `<button class="option" onclick="submitAnswer('${option}')">${option}</button>`).join('');
             feedbackElement.textContent = "";
