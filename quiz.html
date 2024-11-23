@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess Who? 3D Challenge</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1b1b3a, #6a1b9a, #000000, #b71c1c); /* Blue, Purple, Black, Red mix */
+            color: white;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            background: rgba(20, 20, 50, 0.95); /* Semi-transparent dark background */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: rotateX(10deg) translateZ(50px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 3px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .question-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+            transition: transform 0.6s;
+            background-color: rgba(50, 50, 50, 0.8); /* Semi-transparent dark color */
+            border: 2px solid rgba(255, 255, 255, 0.3); /* Light border for the card */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .card:hover {
+            transform: rotateY(180deg);
+        }
+
+        .card-side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 50%;
+        }
+
+        .front {
+            background-color: rgba(0, 0, 100, 0.8); /* Dark blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .back {
+            background-color: rgba(0, 0, 100, 0.8); /* Dark blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transform: rotateY(180deg);
+            border-radius: 50%;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option {
+            padding: 12px 20px;
+            background: #3b3b8f;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .option:hover {
+            background: #5959c2;
+            transform: scale(1.05);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .start-btn, .restart-btn {
+            padding: 12px 25px;
+            background: #4caf50;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .start-btn:hover, .restart-btn:hover {
+            background: #5fd660;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Media Queries for Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                width: 95%;
+                max-width: 500px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .question-container {
+                width: 150px;
+                height: 150px;
+                margin-bottom: 10px;
+            }
+
+            .card {
+                width: 100%;
+                height: 100%;
+            }
+
+            .back {
+                font-size: 0.7rem;
+            }
+
+            .option {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .feedback {
+                font-size: 1rem;
+            }
+
+            .start-btn, .restart-btn {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .question-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .card {
+                width: 100%;
+                height: 100%;
+            }
+
+            .option {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+
+            .feedback {
+                font-size: 0.9rem;
+            }
+
+            .start-btn, .restart-btn {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Start Screen -->
+        <div id="start-screen">
+            <h1>Welcome to Guess Who?</h1>
+            <p>How well do you know your classmates? Let’s find out!</p>
+            <button class="start-btn" onclick="startGame()">Start Game</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden">
+            <div class="question-container" id="question-container">
+                <div class="card" id="card">
+                    <div class="card-side front" id="front"></div>
+                    <div class="card-side back" id="back"></div>
+                </div>
+            </div>
+            <div class="options" id="options"></div>
+            <div class="feedback" id="feedback"></div>
+        </div>
+
+        <!-- End Screen -->
+        <div id="end-screen" class="hidden">
+            <h1>Game Over!</h1>
+            <p id="final-score"></p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Game Data
+        const questions = [
+            {
+                question: "This Person Loves To Make Fun Of Everyone",
+                options: ["Darshil", "Harshil", "Deepak", "Utkarsh"],
+                answer: "Deepak"
+            },
+            {
+                question: "Know For His Dialog Ruk Ruk ...",
+                options: ["Ayush", "Dhruv", "Bhavyaraj", "Bharat"],
+                answer: "Bharat"
+            },
+            {
+                question: "This person has the best art skills in the class.",
+                options: ["Sagar", "Smit", "Utkarsh", "Raj"],
+                answer: "Utkarsh"
+            },
+            {
+                question: "Most Silent One But Equally Dengerous",
+                options: ["Raj", "Smit", "Utkarsh", "Bharat"],
+                answer: "Smit"
+            },
+            {
+                question: "This Is The One Who Have Double Speaker In Mouth",
+                options: ["Ayush", "Dhruv", "Bhavyaraj", "Karan"],
+                answer: "Ayush"
+            },
+            {
+                question: "Known For His Dengerous Laugh",
+                options: ["Jeet", "Dhruv", "Jitendra", "Bharat"],
+                answer: "Jitendra"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const startScreen = document.getElementById("start-screen");
+        const quizScreen = document.getElementById("quiz-screen");
+        const endScreen = document.getElementById("end-screen");
+        const frontElement = document.getElementById("front");
+        const backElement = document.getElementById("back");
+        const optionsElement = document.getElementById("options");
+        const feedbackElement = document.getElementById("feedback");
+        const finalScoreElement = document.getElementById("final-score");
+
+        function startGame() {
+            startScreen.classList.add("hidden");
+            quizScreen.classList.remove("hidden");
+            currentQuestionIndex = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            frontElement.textContent = "Click to Flip!";
+            backElement.textContent = currentQuestion.question;
+            optionsElement.innerHTML = currentQuestion.options.map(option => `<button class="option" onclick="submitAnswer('${option}')">${option}</button>`).join('');
+            feedbackElement.textContent = "";
+        }
+
+        function submitAnswer(selectedOption) {
+            const currentQuestion = questions[currentQuestionIndex];
+            if (selectedOption === currentQuestion.answer) {
+                score++;
+                feedbackElement.textContent = "Correct! 🎉";
+            } else {
+                feedbackElement.textContent = `Wrong! The correct answer was ${currentQuestion.answer}.`;
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                setTimeout(showQuestion, 2000);
+            } else {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            quizScreen.classList.add("hidden");
+            endScreen.classList.remove("hidden");
+            finalScoreElement.textContent = `Your final score is ${score} out of ${questions.length}.`;
+        }
+
+        function restartGame() {
+            endScreen.classList.add("hidden");
+            startScreen.classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>
