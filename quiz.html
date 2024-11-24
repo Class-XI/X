@@ -1,340 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guess Who? 3D Challenge</title>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #1b1b3a, #6a1b9a, #000000, #b71c1c); /* Blue, Purple, Black, Red mix */
-            color: white;
-            overflow: hidden;
-            perspective: 1000px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess Your Classmate</title>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, black, #00ffaa, rgb(185, 0, 185));
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
 
-        .container {
-            text-align: center;
-            width: 90%;
-            max-width: 600px;
-            background: rgba(20, 20, 50, 0.95); /* Semi-transparent dark background */
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transform: rotateX(10deg) translateZ(50px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .hidden {
+      display: none;
+    }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 3px 5px rgba(0, 0, 0, 0.7);
-        }
+    .container {
+      max-width: 90%;
+      width: 400px;
+    }
 
-        .question-container {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            perspective: 1000px;
-            margin-bottom: 20px;
-        }
+    .box {
+      background: rgba(211, 211, 211, 0.2);
+      /* Semi-transparent light gray */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      /* Shadow effect */
+    }
 
-        .card {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transform: rotateY(0deg);
-            transition: transform 0.6s;
-            background-color: rgba(50, 50, 50, 0.8); /* Semi-transparent dark color */
-            border: 2px solid rgba(255, 255, 255, 0.3); /* Light border for the card */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-        }
+    .card {
+      background: rgba(211, 211, 211, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s, background 0.3s;
+    }
 
-        .card:hover {
-            transform: rotateY(180deg);
-        }
+    button {
+      background: rgba(0, 0, 0, 0.2);
+      border: none;
+      padding: 10px 20px;
+      color: #ffffff;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      margin: 10px 0;
+      width: 100%;
+    }
 
-        .card-side {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 50%;
-        }
+    button:hover {
+      background-color: purple;
+    }
 
-        .front {
-            background-color: rgba(0, 0, 100, 0.8); /* Dark blue */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            color: white;
-            font-weight: bold;
-        }
+    input {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid white;
+      width: 90%;
+      margin: 10px 0;
+    }
 
-        .back {
-            background-color: rgba(0, 0, 100, 0.8); /* Dark blue */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transform: rotateY(180deg);
-            border-radius: 50%;
-        }
+    #liveScore {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
 
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
+    #feedback {
+      margin-top: 15px;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
 
-        .option {
-            padding: 12px 20px;
-            background: #3b3b8f;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
-        }
+    /* Responsive Styles */
+    @media (max-width: 500px) {
 
-        .option:hover {
-            background: #5959c2;
-            transform: scale(1.05);
-        }
+      .box,
+      .card {
+        padding: 15px;
+      }
 
-        .feedback {
-            margin-top: 20px;
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
+      button {
+        font-size: 14px;
+      }
 
-        .start-btn, .restart-btn {
-            padding: 12px 25px;
-            background: #4caf50;
-            color: white;
-            font-size: 1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .start-btn:hover, .restart-btn:hover {
-            background: #5fd660;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* Media Queries for Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-                width: 95%;
-                max-width: 500px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .question-container {
-                width: 150px;
-                height: 150px;
-                margin-bottom: 10px;
-            }
-
-            .card {
-                width: 100%;
-                height: 100%;
-            }
-
-            .back {
-                font-size: 0.7rem;
-            }
-
-            .option {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-
-            .feedback {
-                font-size: 1rem;
-            }
-
-            .start-btn, .restart-btn {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .container {
-                width: 90%;
-            }
-
-            .question-container {
-                width: 120px;
-                height: 120px;
-            }
-
-            .card {
-                width: 100%;
-                height: 100%;
-            }
-
-            .option {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-            }
-
-            .feedback {
-                font-size: 0.9rem;
-            }
-
-            .start-btn, .restart-btn {
-                font-size: 0.85rem;
-            }
-        }
-    </style>
+      #liveScore {
+        font-size: 1em;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <!-- Start Screen -->
-        <div id="start-screen">
-            <h1>Welcome to Guess Who?</h1>
-            <p>How well do you know your classmates? Let’s find out!</p>
-            <button class="start-btn" onclick="startGame()">Start Game</button>
-        </div>
-
-        <!-- Quiz Screen -->
-        <div id="quiz-screen" class="hidden">
-            <div class="question-container" id="question-container">
-                <div class="card" id="card">
-                    <div class="card-side front" id="front"></div>
-                    <div class="card-side back" id="back"></div>
-                </div>
-            </div>
-            <div class="options" id="options"></div>
-            <div class="feedback" id="feedback"></div>
-        </div>
-
-        <!-- End Screen -->
-        <div id="end-screen" class="hidden">
-            <h1>Game Over!</h1>
-            <p id="final-score"></p>
-            <button class="restart-btn" onclick="restartGame()">Play Again</button>
-        </div>
+  <div class="container">
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="box">
+      <h1>Guess Your Classmate</h1>
+      <input type="text" id="userName" placeholder="Enter Your Name">
+      <button id="startGame">Start Game</button>
     </div>
 
-    <script>
-        // Game Data
-        const questions = [
-            {
-                question: "This Person Loves To Make Fun Of Everyone",
-                options: ["Darshil", "Harshil", "Deepak", "Utkarsh"],
-                answer: "Deepak"
-            },
-            {
-                question: "Know For His Dialog Ruk Ruk ...",
-                options: ["Ayush", "Dhruv", "Bhavyaraj", "Bharat"],
-                answer: "Bharat"
-            },
-            {
-                question: "This person has the best art skills in the class.",
-                options: ["Sagar", "Smit", "Utkarsh", "Raj"],
-                answer: "Utkarsh"
-            },
-            {
-                question: "Most Silent One But Equally Dengerous",
-                options: ["Raj", "Smit", "Utkarsh", "Bharat"],
-                answer: "Smit"
-            },
-            {
-                question: "This Is The One Who Have Double Speaker In Mouth",
-                options: ["Ayush", "Dhruv", "Bhavyaraj", "Karan"],
-                answer: "Ayush"
-            },
-            {
-                question: "Known For His Dengerous Laugh",
-                options: ["Jeet", "Dhruv", "Jitendra", "Bharat"],
-                answer: "Jitendra"
-            }
-        ];
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="hidden">
+      <h2 id="welcomeMessage"></h2>
+      <div id="questionCard" class="card">
+        <h3 id="question"></h3>
+        <div id="options"></div>
+        <div id="feedback"></div>
+      </div>
+      <div id="liveScore">Score: 0</div>
+    </div>
 
-        let currentQuestionIndex = 0;
-        let score = 0;
+    <!-- Result Screen -->
+    <div id="resultScreen" class="hidden box">
+      <h1>Game Over!</h1>
+      <p id="finalScore"></p>
+      <button id="restartGame">Restart</button>
+    </div>
+  </div>
 
-        const startScreen = document.getElementById("start-screen");
-        const quizScreen = document.getElementById("quiz-screen");
-        const endScreen = document.getElementById("end-screen");
-        const frontElement = document.getElementById("front");
-        const backElement = document.getElementById("back");
-        const optionsElement = document.getElementById("options");
-        const feedbackElement = document.getElementById("feedback");
-        const finalScoreElement = document.getElementById("final-score");
+  <script>
+    // Questions Data
+    const questions = [
+      { question: "Who Is Known For His Dialog Ruk Ruk ....", options: ["Ravi", "Ayush", "Bharat", "Dhruv"], answer: "Bharat" },
+      { question: "This Is The One From Whome Everyone Ask Homework", options: ["Raj", "Utkarsh", "Ayush", "Jeet"], answer: "Ayush" },
+      { question: "Who has the loudest laugh in the class?", options: ["Ayush", "Jitu", "Smit", "Deepak"], answer: "Jitu" },
+      { question: "Who Moke Everyone In Class?", options: ["Darshil", "Harshil", "Deepak", "Bharat"], answer: "Deepak" },
+      { question: "Who Always Got Caught While Doing Fun In Class?", options: ["Darshil & Harshil", "Dhruv", "Bharat  & Ravi", "Karan"], answer: "Darshil & Harshil" },
+      { question: "Who is most likely to become a famous artist?", options: ["Jitendra", "Yash", "Utkarsh", "Smit"], answer: "Utkarsh" },
+      { question: "The One Who Study All Time In School?", options: ["Deepak", "Jeet", "Ayush", "Dhruv"], answer: "Jeet" },
+      { question: "Who Is The One Who Has Best Handwritting In Hindi?", options: ["Bhavyaraj", "Raj", "Ravindra", "Sagar"], answer: "Raj" },
+      { question: "Who Get 5g Signal In Class?", options: ["Utkarsh", "Ayush", "Smit", "Ravi"], answer: "Ayush" },
+      { question: "Who Is The First One To Top In C.S?", options: ["Smit", "Karan", "Dhruv", "Smit"], answer: "Dhruv" },
+      { question: "Who Is More Likely To Become Businessman?", options: ["Bharat", "Ravi", "Raj", "Sagar"], answer: "Bharat" },
+      { question: "Who Is the Most Competitive In Shayri Competition?", options: ["Ravi", "Raj", "Utkarsh", "Deepak"], answer: "Ravi" },
+      { question: "From Whose Bottle Everyone Drink Water?", options: ["Jitu", "Utkarsh", "Jeet", "Smit"], answer: "Utkarsh" },
+      { question: "Who Does Not Like To Come In Group Photo?", options: ["Raj", "Bhavyaraj", "Harshil", "Karan"], answer: "Karan" },
+      { question: "Who Was The First Monitor Of Class 11 To Finish 1 Month Of Shift?", options: ["Ravi", "Darshil", "Deepak", "Ayush"], answer: "Deepak" },
+      { question: "Who Is The Longest One After Ravindra?", options: ["Smit", "Yash", "Deepak", "Smit"], answer: "Yash" },
+      { question: "Who IS Most Likely To Top Class?", options: ["Smit", "Jeet", "Ayush", "Deepak"], answer: "Jeet" },
+      { question: "Who Get Sick When He Get Any Assembly Role?", options: ["Smit", "Bhavyaraj", "Ravi", "Sagar"], answer: "Bhavyaraj" },
+      { question: "Who Is Og C.S Topper?(Based On knowledge Not Marks)", options: ["Ayush", "Dhruv", "Smit", "Jitu"], answer: "Smit" }
+    ];
 
-        function startGame() {
-            startScreen.classList.add("hidden");
-            quizScreen.classList.remove("hidden");
-            currentQuestionIndex = 0;
-            score = 0;
-            showQuestion();
-        }
 
-        function showQuestion() {
-            const currentQuestion = questions[currentQuestionIndex];
-            frontElement.textContent = "Guess Who Am i?";
-            backElement.textContent = currentQuestion.question;
-            optionsElement.innerHTML = currentQuestion.options.map(option => `<button class="option" onclick="submitAnswer('${option}')">${option}</button>`).join('');
-            feedbackElement.textContent = "";
-        }
+    let currentQuestion = 0;
+    let score = 0;
+    let userName = "";
 
-        function submitAnswer(selectedOption) {
-            const currentQuestion = questions[currentQuestionIndex];
-            if (selectedOption === currentQuestion.answer) {
-                score++;
-                feedbackElement.textContent = "Correct! 🎉";
-            } else {
-                feedbackElement.textContent = `Wrong! The correct answer was ${currentQuestion.answer}.`;
-            }
+    // Start Game
+    document.getElementById("startGame").addEventListener("click", () => {
+      userName = document.getElementById("userName").value;
+      if (!userName) return alert("Please Enter Your Name!");
 
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                setTimeout(showQuestion, 2000);
-            } else {
-                endGame();
-            }
-        }
+      document.getElementById("welcomeMessage").innerText = `Welcome, ${userName}!`;
+      document.getElementById("welcomeScreen").classList.add("hidden");
+      document.getElementById("quizScreen").classList.remove("hidden");
 
-        function endGame() {
-            quizScreen.classList.add("hidden");
-            endScreen.classList.remove("hidden");
-            finalScoreElement.textContent = `Your final score is ${score} out of ${questions.length}.`;
-        }
+      showQuestion();
+    });
 
-        function restartGame() {
-            endScreen.classList.add("hidden");
-            startScreen.classList.remove("hidden");
-        }
-    </script>
+    // Display Question
+    function showQuestion() {
+      const questionData = questions[currentQuestion];
+      document.getElementById("question").innerText = questionData.question;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      document.getElementById("feedback").innerText = ""; // Clear feedback
+
+      questionData.options.forEach(option => {
+        const button = document.createElement("button");
+        button.innerText = option;
+        button.onclick = () => checkAnswer(option);
+        optionsDiv.appendChild(button);
+      });
+    }
+
+    // Check Answer
+    function checkAnswer(selected) {
+      const questionData = questions[currentQuestion];
+      const feedbackDiv = document.getElementById("feedback");
+
+      if (selected === questionData.answer) {
+        score++;
+        feedbackDiv.innerText = "Correct!👏";
+        feedbackDiv.style.color = "green";
+      } else {
+        feedbackDiv.innerText = `Wrong!💥 Correct answer: ${questionData.answer}`;
+        feedbackDiv.style.color = "red";
+      }
+
+      document.getElementById("liveScore").innerText = `Score: ${score}`;
+      setTimeout(nextQuestion, 2000);
+    }
+
+    // Next Question or End Game
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        endGame();
+      }
+    }
+
+    // End Game
+    function endGame() {
+      document.getElementById("quizScreen").classList.add("hidden");
+      document.getElementById("resultScreen").classList.remove("hidden");
+      document.getElementById("finalScore").innerText = `${userName}, You Scored: ${score}, Out Of 19`;
+    }
+
+    // Restart Game
+    document.getElementById("restartGame").addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("resultScreen").classList.add("hidden");
+      document.getElementById("welcomeScreen").classList.remove("hidden");
+    });
+  </script>
 </body>
+
 </html>
