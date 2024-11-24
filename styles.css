@@ -7,7 +7,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     color: white;
-    background: radial-gradient(circle at center, #240046 0%, #3c096c 30%, #10002b 60%, #0d001a 90%);
+     background: linear-gradient(to bottom, rgb(128, 66, 228), #4e8bd5, rgb(185, 0, 185));
     overflow-y: auto;
     position: relative;
     height: 100%;
