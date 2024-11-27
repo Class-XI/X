@@ -7,7 +7,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     color: white;
-     background: linear-gradient(to bottom, rgb(128, 66, 228), #4e8bd5, rgb(185, 0, 185));
+    background: linear-gradient(135deg, rgba(255, 47, 0, 0.7), rgba(255, 140, 0, 0.7), rgba(128, 0, 128, 0.8), black);
     overflow-y: auto;
     position: relative;
     height: 100%;
